@@ -1,0 +1,54 @@
+version: '3.8'
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile.api
+    ports:
+      - '3000:3000'
+      - '9229:9229' # Debug port
+    environment:
+      - NODE_ENV=development
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - POSTGRES_URL=postgres://postgres:password@postgres:5432/jobqueue
+    depends_on:
+      - redis
+      - postgres
+    volumes:
+      - .:/app
+
+  worker:
+    build:
+      context: .
+      dockerfile: Dockerfile.worker
+    ports:
+      - '9230:9230' # debug port
+    environment:
+      - NODE_ENV=development
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - POSTGRES_URL=postgres://postgres:password@postgres:5432/jobqueue
+    depends_on:
+      - redis
+      - postgres
+
+  redis:
+    image: 'redis:alpine'
+    container_name: redis
+    ports:
+      - '6379:6379'
+
+  postgres:
+    image: 'postgres:alpine'
+    environment:
+      POSTGRES_PASSWORD: password
+      POSTGRES_USER: postgres
+      POSTGRES_DB: jobqueue
+    ports:
+      - '5433:5432'
+
+    volumes:
+      # PostgreSQL will run any .sql file inside /docker-entrypoint-initdb.d/
+      # only on first initialization (i.e., when the volume is new).
+      - ./scripts/migrations:/docker-entrypoint-initdb.d/

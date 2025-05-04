@@ -1,0 +1,30 @@
+{
+  "name": "job-scheduler",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "api": "npx nodemon --exec 'node --inspect=0.0.0.0:9229 -r ts-node/register/transpile-only api/index.ts'",
+    "worker": "npx nodemon --exec 'node --inspect=0.0.0.0:9230 -r ts-node/register/transpile-only worker/worker.ts'",
+    "test": "jest"
+  },
+  "keywords": [],
+  "author": "Satyajit Nayak",
+  "license": "MIT",
+  "dependencies": {
+    "bullmq": "^5.52.1",
+    "express": "^5.1.0",
+    "ioredis": "^5.6.1",
+    "pg": "^8.15.6",
+    "uuid": "^11.1.0"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.1",
+    "@types/pg": "^8.11.14",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3"
+  }
+}
