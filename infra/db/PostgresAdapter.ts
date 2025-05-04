@@ -12,16 +12,26 @@ export class PostgresAdapter implements IDatabase {
 
   async save(job: JobEntity): Promise<void> {
     await this.pool.query(
-      `INSERT INTO jobs (id, type, status, payload, created_at, updated_at)
-       VALUES ($1, $2, $3, $4, NOW(), NOW())`,
-      [job.id, job.type, job.status, JSON.stringify(job.payload)]
+        `INSERT INTO jobs (id, type, status, payload, created_at, updated_at)
+         VALUES ($1, $2, $3, $4, NOW(), NOW())`,
+        [job.id, job.type, job.status, JSON.stringify(job.payload)]
     );
+  }
+
+  async getStatus(id: string): Promise<string> {
+    const result = await this.pool.query(
+        `SELECT status FROM jobs 
+      WHERE id = $1`,
+        [id]
+    );
+    if (result.rows.length === 0) return '';
+    return result.rows[0];
   }
 
   async updateStatus(id: string, status: JobEntity['status']): Promise<void> {
     await this.pool.query(
-      `UPDATE jobs SET status = $1, updated_at = NOW() WHERE id = $2`,
-      [status, id]
+        `UPDATE jobs SET status = $1, updated_at = NOW() WHERE id = $2`,
+        [status, id]
     );
   }
   async findById(id: string): Promise<JobEntity | null> {
