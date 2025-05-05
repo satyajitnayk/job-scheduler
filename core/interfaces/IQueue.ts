@@ -1,6 +1,6 @@
-import { Job } from '../entities/Job';
+import { JobInfo } from '../entities/Job';
 
 export interface IQueue {
-  add(job: Job): Promise<void>;
+  add(job: JobInfo): Promise<void>;
   process(): Promise<void>;
 }

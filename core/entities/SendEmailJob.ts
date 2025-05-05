@@ -1,4 +1,4 @@
-import { Job } from './Job';
+import { JobInfo } from './Job';
 
 export interface EmailPayload {
   to: string;
@@ -6,7 +6,7 @@ export interface EmailPayload {
   body: string;
 }
 
-export class SendEmailJob implements Job {
+export class SendEmailJob implements JobInfo {
   constructor(public id: string, public data: EmailPayload) {}
   type: string = 'send_email';
 

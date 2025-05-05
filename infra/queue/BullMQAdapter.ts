@@ -1,6 +1,6 @@
 import {Queue, Worker} from 'bullmq';
 import {IQueue} from '../../core/interfaces/IQueue';
-import {Job} from '../../core/entities/Job';
+import {JobInfo} from '../../core/entities/Job';
 import {JobFactory} from '../../core/factories/JobFactory';
 import {redisConfig} from '../redis';
 import {IDatabase} from '../../core/interfaces/IDatabase';
@@ -19,7 +19,7 @@ export class BullMQAdapter implements IQueue {
         this.queue = new Queue(queueName, {connection: redisConfig});
     }
 
-    async add(job: Job): Promise<void> {
+    async add(job: JobInfo): Promise<void> {
         await this.queue.add(job.type, job.data, {
             jobId: job.id,
             removeOnComplete: true,
