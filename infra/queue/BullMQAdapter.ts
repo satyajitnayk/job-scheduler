@@ -1,5 +1,5 @@
 import {Queue, Worker} from 'bullmq';
-import {IQueue} from '../../core/interfaces/IQueue';
+import {IQueue, JobOptions} from '../../core/interfaces/IQueue';
 import {JobInfo} from '../../core/entities/Job';
 import {JobFactory} from '../../core/factories/JobFactory';
 import {redisConfig} from '../redis';
@@ -19,7 +19,7 @@ export class BullMQAdapter implements IQueue {
         this.queue = new Queue(queueName, {connection: redisConfig});
     }
 
-    async add(job: JobInfo): Promise<void> {
+    async add(job: JobInfo, options?: JobOptions): Promise<void> {
         await this.queue.add(job.type, job.data, {
             jobId: job.id,
             removeOnComplete: true,
@@ -28,7 +28,8 @@ export class BullMQAdapter implements IQueue {
             backoff: {
                 type: "exponential",
                 delay: 1000
-            }
+            },
+            delay: options?.delay ?? 0
         });
     }
 

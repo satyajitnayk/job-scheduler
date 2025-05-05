@@ -7,7 +7,7 @@ export class JobRepository {
     constructor(private queue: IQueue, private db: IDatabase) {
     }
 
-    async addJob(type: string, id: string, data: any): Promise<void> {
+    async addJob({type, id, data, delay}: { type: string, id: string, data: any, delay?: number }): Promise<void> {
         const job = JobFactory.createJob(type, id, data);
 
         // Save to DB
@@ -22,7 +22,7 @@ export class JobRepository {
         await this.db.save(jobEntity);
 
         // Enqueue for processing
-        await this.queue.add(job);
+        await this.queue.add(job,{delay});
     }
 
     async getJobStatus(id: string): Promise<string> {

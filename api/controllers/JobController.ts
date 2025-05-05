@@ -14,9 +14,9 @@ export class JobController {
 
     submitJob = async (req: Request, res: Response) => {
         try {
-            const {type, data} = req.body;
+            const {type, data, delay} = req.body;
             const jobId = uuid();
-            await this.repository.addJob(type, jobId, data);
+            await this.repository.addJob({type, id:jobId, data, delay});
             res.status(201).send({message: 'Job submitted successfully', jobId});
         } catch (error) {
             console.log(error);
