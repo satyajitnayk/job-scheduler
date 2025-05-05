@@ -8,3 +8,5 @@ export const JOB_STATUS = {
   PENDING: 'pending',
   CANCELLED: 'cancelled',
 };
+
+export const RETRY = parseInt(process.env.RETRY!) || 5;
