@@ -1,5 +1,5 @@
 import { JobInfo } from '../entities/Job';
-import { SendEmailJob } from '../entities/SendEmailJob';
+import { SendEmailJob } from '../jobs/SendEmailJob';
 
 export class JobFactory {
   static createJob(type: string, id: string, data: any): JobInfo {

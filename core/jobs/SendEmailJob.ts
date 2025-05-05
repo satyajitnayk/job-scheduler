@@ -1,4 +1,4 @@
-import { JobInfo } from './Job';
+import { JobInfo } from '../entities/Job';
 
 export interface EmailPayload {
   to: string;
