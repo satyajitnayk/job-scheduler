@@ -1,8 +1,8 @@
-import { Job } from '../entities/Job';
-import { SendEmailJob } from '../entities/SendEmailJob';
+import { JobInfo } from '../entities/Job';
+import { SendEmailJob } from '../jobs/SendEmailJob';
 
 export class JobFactory {
-  static createJob(type: string, id: string, data: any): Job {
+  static createJob(type: string, id: string, data: any): JobInfo {
     switch (type) {
       case 'send_email':
         return new SendEmailJob(id, data);

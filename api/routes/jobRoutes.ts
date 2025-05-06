@@ -12,5 +12,6 @@ const jobController = new JobController(queueAdapter, db);
 
 router.post('/jobs', jobController.submitJob);
 router.get('/jobs/:id', jobController.getJobStatus);
+router.delete('/jobs/:id', jobController.removeJob);
 
 export default router;
