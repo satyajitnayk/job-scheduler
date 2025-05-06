@@ -33,6 +33,10 @@ export class BullMQAdapter implements IQueue {
         });
     }
 
+    async remove(jobId: string): Promise<void> {
+        await this.queue.remove(jobId);
+    }
+
     async process(): Promise<void> {
         this.worker = new Worker(
             this.queueName,

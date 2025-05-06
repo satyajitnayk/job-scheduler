@@ -16,11 +16,25 @@ export class JobController {
         try {
             const {type, data, delay} = req.body;
             const jobId = uuid();
-            await this.repository.addJob({type, id:jobId, data, delay});
+            await this.repository.addJob({type, id: jobId, data, delay});
             res.status(201).send({message: 'Job submitted successfully', jobId});
         } catch (error) {
             console.log(error);
             res.status(500).send({error: 'Error submitting job'});
+        }
+    }
+
+    removeJob = async (req: Request, res: Response) => {
+        try {
+            const jobId = req.params.id;
+            if (!jobId) {
+                res.status(400).send({error: 'jobId is required!'});
+            }
+            await this.repository.removeJob(jobId);
+            res.status(200).send({message: 'Job removed successfully'});
+        } catch (error) {
+            console.log(error);
+            res.status(500).send({error: 'Error deleting job'});
         }
     }
 
